@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Evidence-backed Australian superannuation investment option comparison prototype." />
+  <title>Super Evidence — Compare Australian super investments</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand-wrap">
+      <div class="brand-mark" aria-hidden="true">S</div>
+      <div>
+        <div class="brand">Super Evidence</div>
+        <div class="brand-sub">Australian super, with receipts.</div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <span class="badge neutral">Prototype</span>
+      <button id="methodologyButton" class="text-button">Methodology</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="eyebrow">INDEPENDENT SUPER DATA</div>
+      <h1>Compare the investment.<br><span>Not the marketing label.</span></h1>
+      <p class="hero-copy">Every displayed fact is tied to evidence, dated, and given a verification status. Historical strategy changes are preserved rather than overwritten.</p>
+      <div class="trust-row">
+        <span>✓ No sponsored rankings</span>
+        <span>✓ Primary-source first</span>
+        <span>✓ Historical versions</span>
+        <span>✓ Public methodology</span>
+      </div>
+    </section>
+
+    <section class="compare-shell">
+      <div class="compare-toolbar">
+        <div>
+          <div class="section-kicker">COMPARE</div>
+          <h2>High Growth vs High Growth</h2>
+          <p>Same label. Different portfolios.</p>
+        </div>
+        <div class="as-at">Performance as at <strong>30 Jun 2026</strong></div>
+      </div>
+
+      <div id="optionHeaders" class="option-headers"></div>
+      <nav id="tabs" class="tabs" aria-label="Comparison sections"></nav>
+      <div id="tabContent" class="tab-content"></div>
+    </section>
+
+    <section class="principles">
+      <div>
+        <div class="section-kicker">WHY THIS EXISTS</div>
+        <h2>One number should never hide its history.</h2>
+      </div>
+      <div class="principle-grid">
+        <article><strong>Source</strong><p>Click a metric to see the issuer page, reporting date, extraction status and cross-checks.</p></article>
+        <article><strong>Context</strong><p>Returns sit beside risk, composition and cost rather than being ranked in isolation.</p></article>
+        <article><strong>History</strong><p>Strategy changes remain visible so today's portfolio is not confused with yesterday's track record.</p></article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Research prototype only. Factual comparison, not personal financial advice. Past performance is not a reliable indicator of future performance.</p>
+  </footer>
+
+  <div id="drawerBackdrop" class="drawer-backdrop" hidden></div>
+  <aside id="evidenceDrawer" class="drawer" aria-hidden="true" aria-label="Evidence details">
+    <div class="drawer-head">
+      <div>
+        <div class="section-kicker">EVIDENCE LEDGER</div>
+        <h2 id="drawerTitle">Evidence</h2>
+      </div>
+      <button id="closeDrawer" class="icon-button" aria-label="Close evidence drawer">×</button>
+    </div>
+    <div id="drawerBody" class="drawer-body"></div>
+  </aside>
+
+  <div id="methodologyModal" class="modal-backdrop" hidden>
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="methodologyTitle">
+      <button id="closeMethodology" class="icon-button modal-close" aria-label="Close">×</button>
+      <div class="section-kicker">OPEN METHODOLOGY</div>
+      <h2 id="methodologyTitle">How this prototype treats data</h2>
+      <ol>
+        <li><strong>Issuer first:</strong> super-fund public pages and documents are the preferred evidence for fund-specific facts.</li>
+        <li><strong>APRA cross-check:</strong> regulatory data is kept separately and used for peer and methodology consistency.</li>
+        <li><strong>No false precision:</strong> a mixed asset bucket is not converted into a precise standardised growth percentage unless underlying detail supports it.</li>
+        <li><strong>No silent substitution:</strong> secondary-source values are labelled as such until the issuer value is directly extracted.</li>
+        <li><strong>No overwriting:</strong> historical values remain date-stamped and queryable.</li>
+      </ol>
+      <p class="small">The production architecture also separates Fund → Product → Investment Menu → Investment Option → Investment Pathway so fees and returns are not attached to the wrong level.</p>
+    </section>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
