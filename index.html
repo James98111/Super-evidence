@@ -3,123 +3,128 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="A plain-English, evidence-backed comparison of Australian super investment options." />
-  <title>Super Evidence — Understand and compare your super</title>
+  <meta name="description" content="Search, understand and compare Australian superannuation investment options with evidence behind every number." />
+  <title>Super Evidence — Understand your super</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <header class="site-header">
-    <a class="brand-wrap" href="#top" aria-label="Super Evidence home">
-      <div class="brand-mark" aria-hidden="true">SE</div>
-      <div>
-        <div class="brand">Super Evidence</div>
-        <div class="brand-sub">Independent Australian super comparison</div>
-      </div>
+    <a class="brand" href="#find" aria-label="Super Evidence home">
+      <span class="brand-mark">S</span>
+      <span>
+        <strong>Super Evidence</strong>
+        <small>Independent Australian super data</small>
+      </span>
     </a>
-    <nav class="header-actions" aria-label="Site tools">
-      <button id="basicsButton" class="header-link">Super basics</button>
-      <button id="methodologyButton" class="header-link">How we check the data</button>
+    <nav class="top-nav" aria-label="Main navigation">
+      <button data-view="find" class="nav-link active">Find</button>
+      <button data-view="compare" class="nav-link">Compare</button>
+      <button data-view="learn" class="nav-link">Learn</button>
+      <button id="methodologyButton" class="nav-link">Methodology</button>
     </nav>
   </header>
 
-  <main id="top">
-    <section class="hero">
-      <div class="hero-copy-wrap">
-        <p class="eyebrow">A clearer way to compare super</p>
-        <h1>Understand what your super is actually doing.</h1>
-        <p class="hero-copy">Compare returns, risk, investments and fees in plain English — then open the source behind any number when you want to check it yourself.</p>
-      </div>
-      <div class="hero-note">
-        <strong>New to super?</strong>
-        <p>You do not need to know what “asset allocation” or “defensive assets” mean. We explain them as you go.</p>
-        <button id="startGuideButton" class="secondary-button">Start with the basics</button>
-      </div>
-    </section>
+  <main>
+    <section id="findView" class="view active-view">
+      <div class="intro">
+        <p class="kicker">AUSTRALIAN SUPER, EXPLAINED</p>
+        <h1>Find your fund. Understand your investment.</h1>
+        <p class="intro-copy">Search a fund or investment option, then see what it owns, how it has performed, what it costs and where every number came from.</p>
 
-    <section class="orientation" aria-label="How to use this page">
-      <div class="orientation-step"><span>1</span><div><strong>Know what you’re comparing</strong><small>A fund and an investment option are different things.</small></div></div>
-      <div class="orientation-step"><span>2</span><div><strong>Look beyond the return</strong><small>Risk, fees and what the option owns all matter.</small></div></div>
-      <div class="orientation-step"><span>3</span><div><strong>Check the evidence</strong><small>Use the source button beside a number whenever you want.</small></div></div>
-    </section>
-
-    <section class="compare-shell" aria-labelledby="comparisonTitle">
-      <div class="compare-toolbar">
-        <div>
-          <p class="overline">Current comparison</p>
-          <h2 id="comparisonTitle">ART High Growth vs Aware High Growth</h2>
-          <p>Two options with the same label, but different portfolios, risk settings and costs.</p>
+        <div class="search-wrap">
+          <label for="globalSearch">Search super funds and investment options</label>
+          <div class="search-box">
+            <input id="globalSearch" type="search" autocomplete="off" placeholder="Try ‘ART High Growth’ or ‘Aware Super’" />
+            <button id="clearSearch" class="clear-search" aria-label="Clear search" hidden>Clear</button>
+          </div>
+          <div id="searchResults" class="search-results" hidden></div>
         </div>
-        <div class="view-toggle" role="group" aria-label="Detail level">
-          <button class="view-button active" data-view="simple">Simple view</button>
-          <button class="view-button" data-view="detail">Full detail</button>
+
+        <div class="coverage-line">
+          <span id="coverageText">Prototype coverage</span>
+          <span>Every future fund and option will use the same structure.</span>
         </div>
       </div>
 
-      <div id="optionHeaders" class="option-headers"></div>
-      <nav id="tabs" class="tabs" aria-label="Comparison sections"></nav>
-      <div id="tabContent" class="tab-content"></div>
+      <section class="directory" aria-labelledby="browseTitle">
+        <div class="section-heading compact-heading">
+          <div>
+            <p class="kicker">BROWSE</p>
+            <h2 id="browseTitle">Start with a fund</h2>
+          </div>
+          <p>Choose a fund to see its available investment options in this prototype.</p>
+        </div>
+        <div id="fundDirectory" class="fund-directory"></div>
+      </section>
+
+      <section id="optionProfile" class="option-profile" hidden></section>
     </section>
 
-    <section class="learning-section" id="superBasics">
-      <div class="learning-heading">
-        <p class="overline">Super basics</p>
-        <h2>The five things worth understanding before you choose an investment option.</h2>
-        <p>You can use this site without knowing these first. But once they make sense, almost every super comparison becomes easier.</p>
+    <section id="compareView" class="view" hidden>
+      <div class="page-head">
+        <p class="kicker">COMPARE</p>
+        <h1>Compare options without drowning in data.</h1>
+        <p>Start with the few things that matter most. Open the deeper sections only when you want them.</p>
       </div>
-      <div class="learning-grid">
-        <details open>
-          <summary>1. Your super fund is not the same as your investment option</summary>
-          <p>Your <strong>fund</strong> is the provider that holds and administers your super. Inside the fund you usually choose an <strong>investment option</strong>, such as High Growth, Balanced or Indexed. The investment option largely determines how your money is invested and how much risk you take.</p>
-        </details>
-        <details>
-          <summary>2. “High Growth” usually means more ups and downs</summary>
-          <p>Growth assets such as shares, property, infrastructure and private equity are generally expected to deliver stronger long-term growth, but their value can fall sharply in bad markets. A higher growth percentage does not automatically mean a better option.</p>
-        </details>
-        <details>
-          <summary>3. A 10-year return is usually more useful than a 1-year return</summary>
-          <p>One year can be dominated by a market boom or fall. Longer periods give you more information about how an option has behaved across different conditions. But you should also check whether the investment strategy changed during those 10 years.</p>
-        </details>
-        <details>
-          <summary>4. Small fee differences compound</summary>
-          <p>Fees reduce the amount left invested for you. The difference between two fee percentages can look tiny, so our fee calculator converts them into dollars at your actual balance.</p>
-        </details>
-        <details>
-          <summary>5. Past performance is useful evidence — not a promise</summary>
-          <p>Historical returns tell you what happened, not what will happen. They are most useful when considered alongside risk, fees, portfolio composition and whether the strategy itself has remained comparable.</p>
-        </details>
+
+      <section class="compare-picker" aria-label="Choose options to compare">
+        <div class="picker-field">
+          <label for="compareA">Option one</label>
+          <select id="compareA"></select>
+        </div>
+        <div class="compare-vs">vs</div>
+        <div class="picker-field">
+          <label for="compareB">Option two</label>
+          <select id="compareB"></select>
+        </div>
+      </section>
+
+      <section id="compareSummary" class="compare-summary"></section>
+      <section id="compareDetails" class="compare-details"></section>
+    </section>
+
+    <section id="learnView" class="view" hidden>
+      <div class="page-head narrow">
+        <p class="kicker">SUPER BASICS</p>
+        <h1>Super makes more sense once you know five things.</h1>
+        <p>You do not need to understand investing to use this site. These are the ideas we will explain everywhere else.</p>
+      </div>
+
+      <div class="learning-list">
+        <article><span>1</span><div><h2>Your fund is not your investment</h2><p>Your super fund is the provider. Inside it, your money sits in an investment option such as High Growth, Balanced or an indexed option. Two people in the same fund can therefore have very different investments.</p></div></article>
+        <article><span>2</span><div><h2>“High Growth” usually means more ups and downs</h2><p>Growth assets such as shares are expected to grow more over long periods, but they can fall more sharply in bad markets. The percentage of growth assets is more useful than the name alone.</p></div></article>
+        <article><span>3</span><div><h2>Long-term returns matter more than one good year</h2><p>A single year can be unusually strong or weak. Five- and ten-year annualised returns are more useful for understanding a long-term option, while still not guaranteeing what happens next.</p></div></article>
+        <article><span>4</span><div><h2>Fees should be translated into dollars</h2><p>A fee percentage can feel meaningless. We convert published formulas into an estimated annual dollar amount for the balance you choose, while keeping the source and calculation visible.</p></div></article>
+        <article><span>5</span><div><h2>The investment can change over time</h2><p>A ten-year return may include years when an option looked different from today. We preserve strategy changes so a long history is not mistaken for the exact portfolio you own now.</p></div></article>
       </div>
     </section>
   </main>
 
   <footer>
-    <div><strong>Super Evidence</strong><br><span>Independent factual comparison using public information.</span></div>
-    <p>Research prototype only. This site does not provide personal financial advice. Past performance is not a reliable indicator of future performance.</p>
+    <div><strong>Super Evidence</strong><br><span>Factual research and comparison. Not personal financial advice.</span></div>
+    <div>Past performance is not a reliable indicator of future performance.</div>
   </footer>
 
   <div id="drawerBackdrop" class="drawer-backdrop" hidden></div>
-  <aside id="evidenceDrawer" class="drawer" aria-hidden="true" aria-label="Source details">
+  <aside id="evidenceDrawer" class="drawer" aria-hidden="true" aria-label="Evidence details">
     <div class="drawer-head">
-      <div>
-        <p class="overline">Source for this number</p>
-        <h2 id="drawerTitle">Evidence</h2>
-      </div>
-      <button id="closeDrawer" class="icon-button" aria-label="Close source details">×</button>
+      <div><p class="kicker">SOURCE</p><h2 id="drawerTitle">Evidence</h2></div>
+      <button id="closeDrawer" class="close-button" aria-label="Close evidence">×</button>
     </div>
     <div id="drawerBody" class="drawer-body"></div>
   </aside>
 
   <div id="methodologyModal" class="modal-backdrop" hidden>
     <section class="modal" role="dialog" aria-modal="true" aria-labelledby="methodologyTitle">
-      <button id="closeMethodology" class="icon-button modal-close" aria-label="Close">×</button>
-      <p class="overline">How we check the data</p>
-      <h2 id="methodologyTitle">You should be able to verify every important number.</h2>
-      <p>We prefer the super fund’s own public documents for fund-specific facts, keep APRA data separately as an independent regulatory source, and label derived or secondary values rather than presenting them as primary facts.</p>
-      <div class="method-list">
-        <div><strong>Primary source first</strong><span>Fund pages, investment guides, PDS documents and public disclosures.</span></div>
-        <div><strong>Dates matter</strong><span>We keep reporting and effective dates so a current portfolio is not confused with an old one.</span></div>
-        <div><strong>History is preserved</strong><span>When an option changes, the old value remains part of its history.</span></div>
-        <div><strong>No false precision</strong><span>If the public data is not detailed enough to calculate something reliably, we say so.</span></div>
-        <div><strong>No paid ranking</strong><span>Funds cannot pay to appear better in the comparison.</span></div>
+      <button id="closeMethodology" class="close-button modal-close" aria-label="Close methodology">×</button>
+      <p class="kicker">PUBLIC METHODOLOGY</p>
+      <h2 id="methodologyTitle">How Super Evidence treats data</h2>
+      <div class="methodology-list">
+        <p><strong>Primary source first.</strong> Fund pages and documents are preferred for fund-specific facts.</p>
+        <p><strong>Regulator kept separate.</strong> APRA data is used for cross-checking, history and standardisation rather than silently replacing a fund's own disclosure.</p>
+        <p><strong>No false precision.</strong> If a source is too coarse to support a precise calculation, we do not manufacture one.</p>
+        <p><strong>History is preserved.</strong> New values create new dated observations instead of overwriting the past.</p>
+        <p><strong>Every displayed number can show its source.</strong> Source, date, status and calculation context remain attached to the metric.</p>
       </div>
     </section>
   </div>
