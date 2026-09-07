@@ -13,7 +13,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: apra-market-sync
+  group: apra-data-publish
   cancel-in-progress: false
 
 jobs:
@@ -24,7 +24,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 1
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -60,4 +60,6 @@ jobs:
           git config user.name 'super-evidence-bot'
           git config user.email '94504434+James98111@users.noreply.github.com'
           git commit -m 'Refresh APRA market snapshot'
-          git push
+          git fetch origin main
+          git rebase origin/main
+          git push origin HEAD:main
