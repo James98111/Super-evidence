@@ -6,6 +6,8 @@ on:
     paths:
       - 'app-v7.js'
       - 'core-v8.js'
+      - 'workspace-v8.js'
+      - 'v8/**'
       - 'tests/**'
       - 'styles-v7.css'
       - 'index.html'
@@ -25,8 +27,24 @@ jobs:
         run: |
           node --check app-v7.js
           node --check core-v8.js
+          node --check workspace-v8.js
+          node --check v8/app.js
       - name: Economic analysis regression tests
         run: node tests/core-v8.test.mjs
+      - name: V8 shell integrity
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          html=Path('v8/index.html').read_text(encoding='utf-8')
+          css=Path('v8/styles.css').read_text(encoding='utf-8')
+          js=Path('v8/app.js').read_text(encoding='utf-8')
+          assert 'type="module" src="app.js"' in html
+          assert 'My research' in html
+          assert 'core-v8.js' in js and 'workspace-v8.js' in js
+          assert 'question-grid' in css and 'research-detail' in css
+          assert 'Search the market' in html
+          print('V8 shell passed')
+          PY
       - name: Market data integrity
         run: |
           python - <<'PY'
@@ -50,5 +68,12 @@ jobs:
               returns=[x['return_10y_pct'] for x in m if x.get('return_10y_pct') is not None]
               assert len(returns) >= 300
               assert all(-100 <= x <= 100 for x in returns)
+          cppp=root/'cppp-2026.json'
+          if cppp.exists():
+              c=json.load(open(cppp))
+              rows=c.get('records',[])
+              assert len(rows) >= 700
+              ten=[x for x in rows if x.get('return_10y_pct') is not None]
+              assert len(ten) >= 300
           print('QA passed')
           PY
