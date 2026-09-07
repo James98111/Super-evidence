@@ -44,19 +44,19 @@ jobs:
           p=json.load(open('data/apra-market/funds-index.json'))
           print('reporting_period:', p['reporting_period'])
           print('fund_count:', p['fund_count'])
-          print('managed_options:', sum(x['managed_options'] for x in p['funds']))
-          print('direct_assets:', sum(x['direct_assets'] for x in p['funds']))
-          print('total_option_records:', sum(x['total_option_records'] for x in p['funds']))
+          print('managed_structure_records:', sum(x['managed_options'] for x in p['funds']))
+          print('direct_asset_records:', sum(x['direct_assets'] for x in p['funds']))
+          print('total_structure_records:', sum(x['total_option_records'] for x in p['funds']))
           PY
 
       - name: Commit refreshed public snapshot
         run: |
-          if git diff --quiet -- data/apra-market; then
+          git add data/apra-market
+          if git diff --cached --quiet; then
             echo 'No APRA market changes.'
             exit 0
           fi
           git config user.name 'super-evidence-bot'
           git config user.email '94504434+James98111@users.noreply.github.com'
-          git add data/apra-market
           git commit -m 'Refresh APRA market snapshot'
           git push
