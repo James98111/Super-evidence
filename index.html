@@ -11,6 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="styles-v3.css" />
+  <link rel="stylesheet" href="styles-v4.css" />
 </head>
 <body>
   <header class="site-header">
@@ -20,11 +21,10 @@
         <span class="brand-copy"><strong>Super Evidence</strong><small>Independent Australian super research</small></span>
       </button>
       <nav class="desktop-nav" aria-label="Main navigation">
-        <button data-view="funds" class="nav-link">Find a fund</button>
+        <button data-view="funds" class="nav-link">Funds</button>
         <button data-view="compare" class="nav-link">Compare</button>
         <button data-view="calculators" class="nav-link">Calculators</button>
         <button data-view="learn" class="nav-link">Learn</button>
-        <button data-view="about" class="nav-link">About</button>
       </nav>
       <button id="globalSearchButton" class="search-button" aria-haspopup="dialog" aria-label="Search super funds">
         <svg aria-hidden="true" viewBox="0 0 32 32"><use href="assets/icons.svg#search"></use></svg>
@@ -42,7 +42,7 @@
       </div>
       <nav aria-label="Footer navigation">
         <button data-view="about">About</button>
-        <button data-view="learn">Methodology</button>
+        <button data-view="learn">Learn & methodology</button>
         <a href="#" aria-label="Privacy">Privacy</a>
         <a href="#" aria-label="Disclaimers">Disclaimers</a>
       </nav>
@@ -59,7 +59,7 @@
       </div>
       <button id="closeSearch" class="icon-button" aria-label="Close search">×</button>
     </div>
-    <input id="dialogSearchInput" class="dialog-search-input" type="search" placeholder="Search Australian Retirement Trust, Aware Super..." autocomplete="off" />
+    <input id="dialogSearchInput" class="dialog-search-input" type="search" placeholder="Search Aware Super, Australian Retirement Trust..." autocomplete="off" />
     <div id="dialogSearchResults" class="dialog-results"></div>
   </dialog>
 
