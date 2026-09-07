@@ -1,0 +1,162 @@
+[
+  {
+    "sheet": "Cover",
+    "skipped": true,
+    "reason": "no structure header detected"
+  },
+  {
+    "sheet": "Notes",
+    "skipped": true,
+    "reason": "no structure header detected"
+  },
+  {
+    "sheet": "Important notice",
+    "skipped": true,
+    "reason": "no structure header detected"
+  },
+  {
+    "sheet": "Contents",
+    "skipped": true,
+    "reason": "no structure header detected"
+  },
+  {
+    "sheet": "Table 1a",
+    "headers": [
+      "Product Identifier",
+      "Period",
+      "RSE name",
+      "RSE ABN",
+      "Superannuation Product Name",
+      "Member Accounts (rounded to nearest 10)",
+      "Member Assets",
+      "Superannuation Product Type",
+      "Superannuation Product Category Type",
+      "Superannuation Product Phase Type",
+      "Open To New Employers Superannuation Product Indicator",
+      "Open To New Members Superannuation Product Indicator",
+      "Open To Public Superannuation Product Indicator",
+      "Superannuation Product Inception Date",
+      "Superannuation Product End Date",
+      "Number of Lifecycle Stages",
+      "Number of Multi-sector Investment Options",
+      "Number of Single Sector Investment Options",
+      "Number of Direct Investment Options",
+      "Number of Multi-sector Investment Options",
+      "Number of Single Sector Investment Options",
+      "Number of Direct Investment Options",
+      "Product Disclosure Statement URL"
+    ],
+    "mapped": {
+      "fund": "RSE name",
+      "licensee": null,
+      "product": "Superannuation Product Name",
+      "product_id": null,
+      "menu": null,
+      "menu_id": null,
+      "option": null,
+      "option_id": null,
+      "category": null,
+      "option_type": null,
+      "management": null,
+      "strategy_setting": null,
+      "description": null,
+      "product_type": "Superannuation Product Type",
+      "menu_type": null
+    }
+  },
+  {
+    "sheet": "Table 1b",
+    "headers": [
+      "Pathway Identifier",
+      "Product Identifier",
+      "Investment Menu Identifier",
+      "Investment Option Identifier",
+      "Period",
+      "RSE name",
+      "RSE ABN",
+      "Superannuation Product Name",
+      "Investment Menu Name",
+      "Investment Option / Lifecycle Stage Name",
+      "Investment Pathway Member Accounts (rounded to nearest 10)",
+      "Investment Pathway Member Assets",
+      "Investment Option Member Accounts (All investment pathways)",
+      "Investment Option Member Assets (All investment pathways)",
+      "Proportion of investment option member accounts in this investment pathway",
+      "Proportion of investment option assets in this investment pathway",
+      "Superannuation Product Type",
+      "Superannuation Product Category Type",
+      "Superannuation Product Phase Type",
+      "Open To New Employers Superannuation Product Indicator",
+      "Open To New Members Superannuation Product Indicator",
+      "Open To Public Superannuation Product Indicator",
+      "Superannuation Product Inception Date",
+      "Superannuation Product End Date",
+      "Investment Menu Type",
+      "Investment menu open to new members",
+      "Investment Menu Inception Date",
+      "Investment Menu End Date",
+      "Investment option type",
+      "Investment Option Category Type",
+      "Investment Option Included Count",
+      "Investment Option APIR Code",
+      "Exchange Code",
+      "Ticker Symbol",
+      "Able To Freeze For Redemptions Investment Option Indicator",
+      "Frozen For Redemptions Investment Option Indicator",
+      "Open To New Members Investment Option Indicator",
+      "Not Open To New Members Investment Option Reason Type",
+      "Investment Option Inception Date",
+      "Investment Option End Date"
+    ],
+    "mapped": {
+      "fund": "RSE name",
+      "licensee": null,
+      "product": "Superannuation Product Name",
+      "product_id": null,
+      "menu": "Investment Menu Name",
+      "menu_id": "Investment Menu Identifier",
+      "option": null,
+      "option_id": "Investment Option Identifier",
+      "category": "Investment Option Category Type",
+      "option_type": "Investment option type",
+      "management": null,
+      "strategy_setting": null,
+      "description": null,
+      "product_type": "Superannuation Product Type",
+      "menu_type": "Investment Menu Type"
+    }
+  },
+  {
+    "sheet": "Explanatory notes",
+    "skipped": true,
+    "reason": "no structure header detected"
+  },
+  {
+    "sheet": "Metrics",
+    "headers": [
+      "column_1",
+      "IC_001",
+      "Proportion of investment option member accounts in this investment pathways",
+      "Investment Pathway Member Accounts divided by Investment Option Member Accounts (All investment pathways)",
+      "SRF 606.0",
+      "1"
+    ],
+    "mapped": {
+      "fund": null,
+      "licensee": null,
+      "product": null,
+      "product_id": null,
+      "menu": null,
+      "menu_id": null,
+      "option": null,
+      "option_id": null,
+      "category": null,
+      "option_type": null,
+      "management": null,
+      "strategy_setting": null,
+      "description": null,
+      "product_type": null,
+      "menu_type": null
+    }
+  }
+]
