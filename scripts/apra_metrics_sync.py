@@ -16,7 +16,7 @@ METRICS_DIR = MARKET / 'metrics'
 STRUCTURE_INDEX = MARKET / 'funds-index.json'
 URL = 'https://www.apra.gov.au/system/files/2026-06/Quarterly%20Superannuation%20Product%20Publication%20-%20Performance_0.xlsx'
 TMP = Path('/tmp/apra-performance.xlsx')
-UA = 'SuperEvidence/0.4 (+public Australian super research)'
+UA = 'SuperEvidence/0.5 (+public Australian super research)'
 
 PERF_SHEETS = {
     'Table 4a': ('mysuper', 50000, 'accumulation'),
@@ -41,6 +41,9 @@ STRATEGY_SHEETS = {
     'Table 8d': ('retirement', 'retirement'),
 }
 
+SEGMENT_PRIORITY = {'mysuper': 0, 'choice_non_platform': 1, 'choice_platform': 2, 'retirement': 3}
+HORIZON_WORD = {1: 'one-year', 3: 'three-year', 5: 'five-year', 10: 'ten-year'}
+
 
 def clean(v):
     if v is None:
@@ -64,7 +67,7 @@ def pct_value(v):
         x = float(v)
     except (TypeError, ValueError):
         return None
-    # APRA percentage fields are stored as decimal fractions in the workbook.
+    # APRA percentage fields in this workbook are decimal fractions: 0.0731 = 7.31%.
     return round(x * 100.0, 6)
 
 
@@ -101,8 +104,7 @@ def rows(ws):
     header_vals = next(ws.iter_rows(min_row=hr, max_row=hr, values_only=True))
     headers = [str(v).strip() if v is not None and str(v).strip() else f'column_{i+1}' for i, v in enumerate(header_vals)]
     for raw in ws.iter_rows(min_row=hr + 1, values_only=True):
-        d = {headers[i]: clean(raw[i]) if i < len(raw) else None for i in range(len(headers))}
-        yield d
+        yield {headers[i]: clean(raw[i]) if i < len(raw) else None for i in range(len(headers))}
 
 
 def pick(d, *needles):
@@ -115,19 +117,18 @@ def pick(d, *needles):
 
 
 def return_value(d, years, member=False):
-    y = f'{years}-year'
-    # APRA labels vary by MySuper / Choice / platform / retirement. Match the
-    # horizon plus annualised, then distinguish member net return from the
-    # investment-return metric.
+    y = HORIZON_WORD[years]
     candidates = []
     for k, v in d.items():
         nk = norm(k)
         if y not in nk or 'annualised' not in nk:
             continue
         if member:
-            if 'net return' in nk and 'investment return' not in nk:
+            # Member net return is distinct from the investment-return metric.
+            if 'net return' in nk and 'investment return' not in nk and 'gross of tax' not in nk:
                 candidates.append(v)
         else:
+            # Covers NIR, platform GIRNF and retirement investment-return labels.
             if ('investment return' in nk or 'gross investment return net of fees' in nk) and 'net return gross of tax' not in nk:
                 candidates.append(v)
     for v in candidates:
@@ -165,7 +166,7 @@ def parse_performance(wb):
             key = (sheet, pathway_id)
             if key in latest and date_key(latest[key]['reporting_period']) >= date_key(period):
                 continue
-            rec = {
+            latest[key] = {
                 'pathway_id': pathway_id,
                 'option_id': option_id,
                 'fund': fund,
@@ -195,8 +196,9 @@ def parse_performance(wb):
                 'administration_fees_costs_pct': pct_value(pick(d, 'total administration fees and costs', 'rep member')),
                 'total_fees_costs_pct': pct_value(pick(d, 'total fees and costs', 'rep member')),
                 'total_fees_costs_taxes_pct': pct_value(pick(d, 'total fees, costs and taxes', 'rep member')),
+                'option_member_assets': number(pick(d, 'investment option member assets')) or number(pick(d, 'total member assets')),
+                'pathway_member_assets': number(pick(d, 'member assets via this investment pathway')),
             }
-            latest[key] = rec
         print(sheet, seen, 'performance rows scanned', flush=True)
     return list(latest.values())
 
@@ -216,7 +218,6 @@ def parse_strategy(wb):
             key = (sheet, option_id)
             if key in latest and date_key(latest[key]['reporting_period']) >= date_key(period):
                 continue
-
             allocations = []
             for col, value in d.items():
                 ncol = norm(col)
@@ -236,8 +237,7 @@ def parse_strategy(wb):
                         upper = pct_value(v2)
                 if benchmark is not None or lower is not None or upper is not None:
                     allocations.append({'asset_class': label, 'benchmark_pct': benchmark, 'lower_pct': lower, 'upper_pct': upper})
-
-            rec = {
+            latest[key] = {
                 'option_id': option_id,
                 'fund': fund,
                 'option_name': clean(d.get('Investment Option / Lifecycle Stage Name') or d.get('Investment Option Name')),
@@ -256,9 +256,99 @@ def parse_strategy(wb):
                 'negative_return_expectation_20yr': clean(pick(d, 'level of investment risk', '20 year')),
                 'allocations': allocations,
             }
-            latest[key] = rec
         print(sheet, seen, 'strategy rows scanned', flush=True)
     return list(latest.values())
+
+
+def nonnull(values):
+    return [x for x in values if x is not None]
+
+
+def choose_strategy(rows):
+    if not rows:
+        return None
+    rows = sorted(rows, key=lambda x: (SEGMENT_PRIORITY.get(x['segment'], 9), x['phase'] != 'accumulation', -int(str(x['reporting_period']).replace('-', '')[:8] or 0)))
+    return rows[0]
+
+
+def choose_perf_pool(rows):
+    if not rows:
+        return []
+    accumulation = [x for x in rows if x['phase'] == 'accumulation']
+    pool = accumulation or rows
+    best_segment = min((SEGMENT_PRIORITY.get(x['segment'], 9) for x in pool), default=9)
+    pool = [x for x in pool if SEGMENT_PRIORITY.get(x['segment'], 9) == best_segment]
+    at_100k = [x for x in pool if x['representative_balance'] == 100000]
+    if at_100k:
+        return at_100k
+    # If $100k is unavailable, use the closest representative balance for return context,
+    # but fee_100k fields remain null.
+    target = min((abs(x['representative_balance'] - 100000) for x in pool), default=0)
+    return [x for x in pool if abs(x['representative_balance'] - 100000) == target]
+
+
+def min_or_none(values):
+    a = nonnull(values)
+    return min(a) if a else None
+
+
+def max_or_none(values):
+    a = nonnull(values)
+    return max(a) if a else None
+
+
+def build_option_index(performance, strategy):
+    by_perf = defaultdict(list)
+    by_strat = defaultdict(list)
+    for r in performance:
+        by_perf[(r['fund'], r['option_id'])].append(r)
+    for r in strategy:
+        by_strat[(r['fund'], r['option_id'])].append(r)
+    keys = sorted(set(by_perf) | set(by_strat))
+    out = []
+    for fund, option_id in keys:
+        s = choose_strategy(by_strat.get((fund, option_id), []))
+        pool = choose_perf_pool(by_perf.get((fund, option_id), []))
+        exemplar = pool[0] if pool else None
+        balance_is_100k = bool(pool) and all(x['representative_balance'] == 100000 for x in pool)
+        fee_values = nonnull([x['total_fees_costs_pct'] for x in pool]) if balance_is_100k else []
+        fee_min = min(fee_values) if fee_values else None
+        fee_max = max(fee_values) if fee_values else None
+        fee_single = fee_min if fee_min is not None and fee_max is not None and abs(fee_max - fee_min) <= 0.005 else None
+        basis_values = {x['investment_return_basis'] for x in pool if x.get('investment_return_basis')}
+        phase_values = {x['phase'] for x in pool if x.get('phase')}
+        segment_values = {x['segment'] for x in pool if x.get('segment')}
+        rec = {
+            'fund': fund,
+            'option_id': option_id,
+            'option_name': (s or exemplar or {}).get('option_name'),
+            'option_type': (s or exemplar or {}).get('option_type'),
+            'option_category': (s or exemplar or {}).get('option_category'),
+            'phase': next(iter(phase_values)) if len(phase_values) == 1 else (s or {}).get('phase'),
+            'segment': next(iter(segment_values)) if len(segment_values) == 1 else (s or {}).get('segment'),
+            'strategy_reporting_period': (s or {}).get('reporting_period'),
+            'performance_reporting_period': max((x['reporting_period'] for x in pool), default=None),
+            'growth_weight_pct': (s or {}).get('growth_weight_pct'),
+            'growth_band': (s or {}).get('growth_band'),
+            'risk_label': (s or {}).get('risk_label'),
+            'investment_horizon_years': (s or {}).get('investment_horizon_years'),
+            'performance_basis': next(iter(basis_values)) if len(basis_values) == 1 else None,
+            # APRA CPPP option-level logic is conservative where pathway return differs: use the lowest.
+            'return_1y_pct': min_or_none([x['investment_return_1y_pct'] for x in pool]),
+            'return_3y_pct': min_or_none([x['investment_return_3y_pct'] for x in pool]),
+            'return_5y_pct': min_or_none([x['investment_return_5y_pct'] for x in pool]),
+            'return_10y_pct': min_or_none([x['investment_return_10y_pct'] for x in pool]),
+            'member_net_return_10y_pct': min_or_none([x['member_net_return_10y_pct'] for x in pool]),
+            'volatility_10y_pct': max_or_none([x['volatility_10y_pct'] for x in pool]),
+            'fee_100k_pct': fee_single,
+            'fee_100k_min_pct': fee_min,
+            'fee_100k_max_pct': fee_max,
+            'representative_balance_used': pool[0]['representative_balance'] if pool else None,
+            'pathway_records_used': len(pool),
+        }
+        if any(rec.get(k) is not None for k in ('growth_weight_pct', 'return_1y_pct', 'return_10y_pct', 'fee_100k_min_pct')):
+            out.append(rec)
+    return out
 
 
 def main():
@@ -306,6 +396,9 @@ def main():
         }
         (METRICS_DIR / f'{slug}.json').write_text(json.dumps(out, ensure_ascii=False, separators=(',', ':')), encoding='utf-8')
 
+    option_index = build_option_index(performance, strategy)
+    (MARKET / 'option-metrics-index.json').write_text(json.dumps({'schema_version': 1, 'generated_at': generated, 'source': 'APRA QSPS Performance', 'options': option_index}, ensure_ascii=False, separators=(',', ':')), encoding='utf-8')
+
     public_funds = sum(1 for x in index['funds'] if x.get('open_public_products', 0) > 0)
     stats = {
         'schema_version': 1,
@@ -320,17 +413,19 @@ def main():
         'options_with_strategy_metrics': len(strategy_ids),
         'options_with_performance_metrics': len(perf_options),
         'performance_pathways': len(perf_pathways),
+        'comparison_index_options': len(option_index),
         'growth_exposure_min_pct': round(min(all_growth), 2) if all_growth else None,
         'growth_exposure_max_pct': round(max(all_growth), 2) if all_growth else None,
         'source_note': 'Market structure is APRA QSPS March 2026. Performance and strategy coverage is drawn from APRA quarterly performance tables and varies by product type and reporting history.'
     }
     (MARKET / 'market-stats.json').write_text(json.dumps(stats, ensure_ascii=False, indent=2), encoding='utf-8')
 
+    return_count = sum(1 for x in option_index if x.get('return_10y_pct') is not None)
     if stats['fund_entities'] < 50 or stats['unique_option_records'] < 10000:
         raise RuntimeError('Structure coverage validation failed')
-    if len(strategy_ids) < 500 or len(perf_options) < 500:
-        raise RuntimeError(f'Metric coverage unexpectedly low: strategy={len(strategy_ids)}, performance={len(perf_options)}')
-    print('VALIDATED', json.dumps(stats, sort_keys=True), flush=True)
+    if len(strategy_ids) < 500 or len(perf_options) < 500 or return_count < 300:
+        raise RuntimeError(f'Metric coverage unexpectedly low: strategy={len(strategy_ids)}, performance={len(perf_options)}, 10y={return_count}')
+    print('VALIDATED', json.dumps({**stats, 'index_10y_return_count': return_count}, sort_keys=True), flush=True)
 
 if __name__ == '__main__':
     main()
