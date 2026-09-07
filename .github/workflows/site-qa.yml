@@ -5,6 +5,8 @@ on:
     branches: ['main']
     paths:
       - 'app-v7.js'
+      - 'core-v8.js'
+      - 'tests/**'
       - 'styles-v7.css'
       - 'index.html'
       - 'data/apra-market/**'
@@ -20,7 +22,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: JavaScript syntax
-        run: node --check app-v7.js
+        run: |
+          node --check app-v7.js
+          node --check core-v8.js
+      - name: Economic analysis regression tests
+        run: node tests/core-v8.test.mjs
       - name: Market data integrity
         run: |
           python - <<'PY'
@@ -35,6 +41,8 @@ jobs:
               assert s['fund_entities'] == idx['fund_count']
               assert s['unique_option_records'] == idx['unique_options_total']
               assert 0 <= s['growth_exposure_min_pct'] <= s['growth_exposure_max_pct'] <= 150
+              if s['growth_exposure_max_pct'] > 100:
+                  print('INFO: market contains >100% growth exposure; consumer UI must label leveraged exposure explicitly')
           metrics=root/'option-metrics-index.json'
           if metrics.exists():
               m=json.load(open(metrics))['options']
