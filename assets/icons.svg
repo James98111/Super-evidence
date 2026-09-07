@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <symbol id="search" viewBox="0 0 32 32">
+    <circle cx="14" cy="14" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    <path d="M20.3 20.3 27 27" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="compare" viewBox="0 0 32 32">
+    <path d="M8 24V16M16 24V10M24 24V5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M5 26.5h22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="learn" viewBox="0 0 32 32">
+    <path d="M5 7.5c3.7-.8 7.4.1 11 2.7v15c-3.6-2.4-7.3-3.2-11-2.4V7.5Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+    <path d="M27 7.5c-3.7-.8-7.4.1-11 2.7v15c3.6-2.4 7.3-3.2 11-2.4V7.5Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="calculator" viewBox="0 0 32 32">
+    <rect x="8" y="4.5" width="16" height="23" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.7"/>
+    <rect x="11" y="8" width="10" height="4.5" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/>
+    <path d="M11.5 17h1M16 17h1M20.5 17h1M11.5 21.5h1M16 21.5h1M20.5 21.5h1" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+  </symbol>
+</svg>
