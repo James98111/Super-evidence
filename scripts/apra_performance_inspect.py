@@ -27,7 +27,12 @@ def main():
     print('downloaded',TMP.stat().st_size,'bytes',flush=True)
     wb=load_workbook(TMP,read_only=True,data_only=True)
     sheets=[]
+    contents=[]
     for ws in wb.worksheets:
+        if ws.title=='Contents':
+            for row in ws.iter_rows(values_only=True):
+                vals=[clean(v) for v in row]
+                if any(vals): contents.append(vals)
         it=ws.iter_rows(values_only=True)
         probe=[]
         for _ in range(60):
@@ -52,6 +57,8 @@ def main():
         sheets.append({'sheet':ws.title,'max_row':ws.max_row,'max_column':ws.max_column,'header_score':header_score,'header_row_1_based':idx+1,'headers':headers,'samples':samples})
         print(ws.title,'rows',ws.max_row,'cols',ws.max_column,'score',header_score,flush=True)
     OUT.mkdir(parents=True,exist_ok=True)
-    (OUT/'performance-schema.json').write_text(json.dumps({'url':URL,'sha256':hashlib.sha256(TMP.read_bytes()).hexdigest(),'bytes':TMP.stat().st_size,'sheets':sheets},ensure_ascii=False,indent=2),encoding='utf-8')
+    digest=hashlib.sha256(TMP.read_bytes()).hexdigest()
+    (OUT/'performance-schema.json').write_text(json.dumps({'url':URL,'sha256':digest,'bytes':TMP.stat().st_size,'sheets':sheets},ensure_ascii=False,indent=2),encoding='utf-8')
+    (OUT/'performance-contents.json').write_text(json.dumps({'url':URL,'sha256':digest,'contents':contents,'sheet_summary':[{'sheet':s['sheet'],'max_row':s['max_row'],'max_column':s['max_column']} for s in sheets]},ensure_ascii=False,indent=2),encoding='utf-8')
 
 if __name__=='__main__':main()
