@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "release_date": "2026-08-28",
+  "records": 1612,
+  "records_by_type": {
+    "mysuper": 378,
+    "non_platform_tdp": 538,
+    "platform_tdp": 378,
+    "non_platform_edp": 318
+  },
+  "pass_rows": 639,
+  "fail_rows": 26,
+  "source_reported_offerings": 742,
+  "source_reported_performance_tested_offerings": 547,
+  "source_reported_failures": 12,
+  "note": "File rows include lifecycle stages and pathway-level observations and therefore are not the same as APRA headline offering counts."
+}
