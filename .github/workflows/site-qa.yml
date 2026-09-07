@@ -46,6 +46,7 @@ jobs:
           assert 'question-grid' in css and 'research-detail' in css
           assert 'Search the market' in html
           assert 'onerror=' not in js, 'Inline error handlers are not permitted'
+          assert 'option_summary_fallback_used' in js, 'Option/pathway return lineage must remain explicit'
           root=Path('index.html').read_text(encoding='utf-8')
           assert 'url=v8/' in root, 'Public root must open the integrated V8 experience'
           print('V8 shell passed')
