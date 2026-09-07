@@ -48,20 +48,20 @@
     ],
     "mapped": {
       "fund": "RSE name",
-      "licensee": null,
+      "rse_abn": "RSE ABN",
+      "product_id": "Product Identifier",
       "product": "Superannuation Product Name",
-      "product_id": null,
-      "menu": null,
-      "menu_id": null,
-      "option": null,
-      "option_id": null,
-      "category": null,
-      "option_type": null,
-      "management": null,
-      "strategy_setting": null,
-      "description": null,
       "product_type": "Superannuation Product Type",
-      "menu_type": null
+      "product_category": "Superannuation Product Category Type",
+      "phase": "Superannuation Product Phase Type",
+      "open_employers": "Open To New Employers Superannuation Product Indicator",
+      "open_members": "Open To New Members Superannuation Product Indicator",
+      "open_public": "Open To Public Superannuation Product Indicator",
+      "inception": "Superannuation Product Inception Date",
+      "end": "Superannuation Product End Date",
+      "member_accounts": "Member Accounts (rounded to nearest 10)",
+      "member_assets": "Member Assets",
+      "pds_url": "Product Disclosure Statement URL"
     }
   },
   {
@@ -109,21 +109,32 @@
       "Investment Option End Date"
     ],
     "mapped": {
+      "pathway_id": "Pathway Identifier",
       "fund": "RSE name",
-      "licensee": null,
+      "rse_abn": "RSE ABN",
+      "product_id": "Product Identifier",
       "product": "Superannuation Product Name",
-      "product_id": null,
-      "menu": "Investment Menu Name",
-      "menu_id": "Investment Menu Identifier",
-      "option": null,
-      "option_id": "Investment Option Identifier",
-      "category": "Investment Option Category Type",
-      "option_type": "Investment option type",
-      "management": null,
-      "strategy_setting": null,
-      "description": null,
       "product_type": "Superannuation Product Type",
-      "menu_type": "Investment Menu Type"
+      "product_category": "Superannuation Product Category Type",
+      "phase": "Superannuation Product Phase Type",
+      "menu_id": "Investment Menu Identifier",
+      "menu": "Investment Menu Name",
+      "menu_type": "Investment Menu Type",
+      "menu_open": "Investment menu open to new members",
+      "option_id": "Investment Option Identifier",
+      "option": "Investment Option / Lifecycle Stage Name",
+      "option_type": "Investment option type",
+      "category": "Investment Option Category Type",
+      "apir": "Investment Option APIR Code",
+      "exchange": "Exchange Code",
+      "ticker": "Ticker Symbol",
+      "open_option": "Open To New Members Investment Option Indicator",
+      "inception": "Investment Option Inception Date",
+      "end": "Investment Option End Date",
+      "pathway_accounts": "Investment Pathway Member Accounts (rounded to nearest 10)",
+      "pathway_assets": "Investment Pathway Member Assets",
+      "option_accounts": "Investment Option Member Accounts (All investment pathways)",
+      "option_assets": "Investment Option Member Assets (All investment pathways)"
     }
   },
   {
@@ -141,22 +152,6 @@
       "SRF 606.0",
       "1"
     ],
-    "mapped": {
-      "fund": null,
-      "licensee": null,
-      "product": null,
-      "product_id": null,
-      "menu": null,
-      "menu_id": null,
-      "option": null,
-      "option_id": null,
-      "category": null,
-      "option_type": null,
-      "management": null,
-      "strategy_setting": null,
-      "description": null,
-      "product_type": null,
-      "menu_type": null
-    }
+    "mapped": {}
   }
 ]
