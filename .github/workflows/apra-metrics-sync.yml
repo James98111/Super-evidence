@@ -13,7 +13,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: apra-metrics-sync
+  group: apra-data-publish
   cancel-in-progress: false
 
 jobs:
@@ -24,7 +24,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 1
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -42,7 +42,7 @@ jobs:
 
       - name: Commit refreshed metrics
         run: |
-          git add data/apra-market/metrics data/apra-market/market-stats.json
+          git add data/apra-market/metrics data/apra-market/market-stats.json data/apra-market/option-metrics-index.json
           if git diff --cached --quiet; then
             echo 'No APRA metric changes.'
             exit 0
@@ -50,4 +50,10 @@ jobs:
           git config user.name 'super-evidence-bot'
           git config user.email '94504434+James98111@users.noreply.github.com'
           git commit -m 'Refresh APRA performance and strategy snapshot'
-          git push
+
+          # Other automated data jobs may have published while this workbook was
+          # being parsed. Rebase the generated commit onto the latest main before
+          # pushing so a valid refresh is not lost to a non-fast-forward race.
+          git fetch origin main
+          git rebase origin/main
+          git push origin HEAD:main
