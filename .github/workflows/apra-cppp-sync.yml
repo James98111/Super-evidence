@@ -1,0 +1,33 @@
+name: Refresh 2026 APRA CPPP overlay
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '15 21 28 8 *'
+  push:
+    paths:
+      - 'scripts/apra_cppp_sync.py'
+      - '.github/workflows/apra-cppp-sync.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build latest annual comparison overlay
+        run: python scripts/apra_cppp_sync.py
+      - name: Commit CPPP overlay
+        run: |
+          git add data/apra-market/cppp-2026.json data/apra-market/cppp-2026-stats.json
+          if git diff --cached --quiet; then exit 0; fi
+          git config user.name 'super-evidence-bot'
+          git config user.email '94504434+James98111@users.noreply.github.com'
+          git commit -m 'Refresh APRA 2026 CPPP overlay'
+          git push
