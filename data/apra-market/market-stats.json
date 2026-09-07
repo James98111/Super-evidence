@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-07T09:40:38.080300+00:00",
+  "structure_reporting_period": "2026-03-31",
+  "fund_entities": 72,
+  "fund_entities_with_public_products": 53,
+  "unique_managed_options": 25845,
+  "unique_direct_assets": 945,
+  "unique_option_records": 26790,
+  "investment_pathways": 130288,
+  "options_with_strategy_metrics": 1402,
+  "options_with_performance_metrics": 1401,
+  "performance_pathways": 2926,
+  "comparison_index_options": 1430,
+  "growth_exposure_min_pct": 0.0,
+  "growth_exposure_max_pct": 130.0,
+  "source_note": "Market structure is APRA QSPS March 2026. Performance and strategy coverage is drawn from APRA quarterly performance tables and varies by product type and reporting history."
+}
