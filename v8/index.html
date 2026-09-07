@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Explore Australia's super funds and investment options with market-wide APRA data, transparent comparisons and plain-English explanations.">
+  <meta name="theme-color" content="#f7f1e8">
+  <title>Super Evidence V8 — Know what your super is actually doing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="shell nav-shell">
+      <button class="brand" data-view="home" aria-label="Super Evidence home">
+        <span class="brand-symbol" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span><strong>Super Evidence</strong><small>Independent Australian super research</small></span>
+      </button>
+      <nav class="main-nav" aria-label="Main navigation">
+        <button data-view="funds">Funds</button>
+        <button data-view="compare">Compare</button>
+        <button data-view="calculators">Calculators</button>
+        <button data-view="learn">Learn</button>
+      </nav>
+      <div class="nav-actions">
+        <button class="nav-search" id="globalSearchButton" aria-label="Search funds">Search</button>
+        <button class="workspace-button" data-view="workspace">My research</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="app"><div class="boot">Loading the Australian super market…</div></main>
+
+  <footer class="site-footer">
+    <div class="shell footer-grid">
+      <div><strong>Super Evidence</strong><p>Independent, evidence-backed Australian super research.</p></div>
+      <div class="footer-links">
+        <button data-view="about">About</button>
+        <a href="../methodology.html">Methodology</a>
+        <a href="https://www.apra.gov.au/superannuation/performance-and-transparency/superannuation-product-performance" target="_blank" rel="noopener">APRA data</a>
+        <a href="https://moneysmart.gov.au/superannuation-and-retirement" target="_blank" rel="noopener">Moneysmart</a>
+      </div>
+      <p class="footer-disclaimer">Factual information and transparent research tools only. Not personal financial advice. Past performance is not a reliable indicator of future performance.</p>
+    </div>
+  </footer>
+
+  <dialog id="searchDialog" class="search-dialog">
+    <div class="dialog-head"><div><span class="eyebrow">Search the market</span><strong>Find a super fund</strong></div><button id="closeSearch" aria-label="Close">×</button></div>
+    <input id="dialogSearchInput" type="search" placeholder="AustralianSuper, Hostplus, HESTA…" autocomplete="off">
+    <div id="dialogSearchResults" class="dialog-results"></div>
+  </dialog>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
