@@ -95,8 +95,11 @@ export function evidenceCompleteness({ structure = false, performance = false, s
 
 export function buildPeerSet(subject, universe, { requireGrowthBand = true, requirePhase = true, requireReturnBasis = true, publicOnly = true } = {}) {
   if (!subject) return [];
+  if ((requireGrowthBand && !subject.growth_band) ||
+      (requirePhase && !subject.phase) ||
+      (requireReturnBasis && !subject.performance_basis)) return [];
   return (universe || []).filter(x => {
-    if (!x || String(x.option_id) === String(subject.option_id)) return false;
+    if (!x || (x.fund === subject.fund && String(x.option_id) === String(subject.option_id))) return false;
     if (publicOnly && x.public_offer_status && String(x.public_offer_status).toLowerCase().includes('non-public')) return false;
     if (requirePhase && subject.phase && x.phase !== subject.phase) return false;
     if (requireGrowthBand && subject.growth_band && x.growth_band !== subject.growth_band) return false;
@@ -135,12 +138,21 @@ export function peerContext(subject, universe) {
 export function comparability(a, b) {
   if (!a || !b) return { level: 'incomplete', comparable: false, issues: ['Choose two options.'] };
   const issues = [];
-  if (a.phase && b.phase && a.phase !== b.phase) issues.push('Different product phases');
-  if (a.performance_basis && b.performance_basis && a.performance_basis !== b.performance_basis) issues.push('Different APRA return methodologies');
-  if (a.growth_band && b.growth_band && a.growth_band !== b.growth_band) issues.push('Different APRA growth bands');
+  const missing = [];
+  if (!a.phase || !b.phase) missing.push('product phase');
+  else if (a.phase !== b.phase) issues.push('Different product phases');
+  if (!a.performance_basis || !b.performance_basis) missing.push('APRA return methodology');
+  else if (a.performance_basis !== b.performance_basis) issues.push('Different APRA return methodologies');
+  if (!a.growth_band || !b.growth_band) missing.push('APRA growth band');
+  else if (a.growth_band !== b.growth_band) issues.push('Different APRA growth bands');
   const ga = asNumber(a.growth_weight_pct), gb = asNumber(b.growth_weight_pct);
-  if (ga !== null && gb !== null && Math.abs(ga - gb) > 10) issues.push(`Growth exposure differs by ${Math.abs(ga - gb).toFixed(1)} percentage points`);
-  const level = issues.length === 0 ? 'strong' : issues.length === 1 ? 'usable_with_context' : 'weak';
+  if (ga === null || gb === null) missing.push('strategic growth exposure');
+  else if (Math.abs(ga - gb) > 10) issues.push(`Growth exposure differs by ${Math.abs(ga - gb).toFixed(1)} percentage points`);
+  const typeA = a.option_type || a.segment;
+  const typeB = b.option_type || b.segment;
+  if (typeA && typeB && typeA !== typeB) issues.push('Different broad option or product types');
+  if (missing.length) issues.push(`Missing comparison basis: ${missing.join(', ')}`);
+  const level = missing.length || issues.length > 1 ? 'weak' : issues.length === 1 ? 'usable_with_context' : 'strong';
   return {
     level,
     comparable: level !== 'weak',
