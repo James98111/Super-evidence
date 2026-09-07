@@ -1,0 +1,53 @@
+name: Refresh APRA performance and strategy data
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '45 20 2 * *'
+  push:
+    paths:
+      - 'scripts/apra_metrics_sync.py'
+      - '.github/workflows/apra-metrics-sync.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: apra-metrics-sync
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install workbook parser
+        run: python -m pip install --disable-pip-version-check openpyxl==3.1.5
+
+      - name: Build performance and strategy snapshot
+        run: python scripts/apra_metrics_sync.py
+
+      - name: Show coverage summary
+        run: cat data/apra-market/market-stats.json
+
+      - name: Commit refreshed metrics
+        run: |
+          git add data/apra-market/metrics data/apra-market/market-stats.json
+          if git diff --cached --quiet; then
+            echo 'No APRA metric changes.'
+            exit 0
+          fi
+          git config user.name 'super-evidence-bot'
+          git config user.email '94504434+James98111@users.noreply.github.com'
+          git commit -m 'Refresh APRA performance and strategy snapshot'
+          git push
