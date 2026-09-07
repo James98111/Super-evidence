@@ -1,0 +1,283 @@
+{
+  "url": "https://www.apra.gov.au/system/files/2026-06/Quarterly%20Superannuation%20Product%20Publication%20-%20Performance_0.xlsx",
+  "sha256": "020cea7598158268dcd15ea03606f5020c39002911385d5a130c94734366ef2d",
+  "contents": [
+    [
+      "Contents",
+      "",
+      ""
+    ],
+    [
+      "MySuper products - membership demographic by gender and age segments",
+      "2",
+      ""
+    ],
+    [
+      "MySuper products - membership demographics by members' benefit brackets",
+      "3",
+      ""
+    ],
+    [
+      "MySuper Net Returns (for representative member balance $50k)",
+      "4a",
+      ""
+    ],
+    [
+      "MySuper Net Returns (for representative member balance $100k)",
+      "4b",
+      ""
+    ],
+    [
+      "MySuper Net Returns (for representative member balance $250k)",
+      "4c",
+      ""
+    ],
+    [
+      "Net Investment Returns  (Choice Accumulation - for representative member balance $50k)",
+      "5a",
+      ""
+    ],
+    [
+      "Net Investment Returns  (Choice Accumulation- for representative member balance $100k)",
+      "5b",
+      ""
+    ],
+    [
+      "Net Investment Returns  (Choice Accumulation - for representative member balance $250k)",
+      "5c",
+      ""
+    ],
+    [
+      "Gross Investment Returns Net of Fees (Choice Accumulation - Platforms representative member balance $50k)",
+      "6a",
+      ""
+    ],
+    [
+      "Gross Investment Returns Net of Fees (Choice Accumulation - Platforms  - for representative member balance $100k)",
+      "6b",
+      ""
+    ],
+    [
+      "Gross Investment Returns Net of Fees (Choice Accumulation - Platforms  - for representative member balance $250k)",
+      "6c",
+      ""
+    ],
+    [
+      "Investment Returns Net of Fees (Retirement - for representative member balance $50k)",
+      "7a",
+      ""
+    ],
+    [
+      "Investment Returns Net of Fees (Retirement - for representative member balance $100k)",
+      "7b",
+      ""
+    ],
+    [
+      "Investment Returns Net of Fees (Retirement - for representative member balance $250k)",
+      "7c",
+      ""
+    ],
+    [
+      "Investment Returns Net of Fees (Retirement - for representative member balance $500k)",
+      "7d",
+      ""
+    ],
+    [
+      "Investment Strategy  (MySuper)",
+      "8a",
+      ""
+    ],
+    [
+      "Investment Strategy (Choice Accumulation - Non-platform)",
+      "8b",
+      ""
+    ],
+    [
+      "Investment Strategy (Choice Accumulation - platform)",
+      "8c",
+      ""
+    ],
+    [
+      "Investment Strategy (Retirement)",
+      "8d",
+      ""
+    ],
+    [
+      "Disclosed ongoing annual fees and costs",
+      "9",
+      ""
+    ],
+    [
+      "Representative member annual fees and costs",
+      "9a",
+      ""
+    ],
+    [
+      "Activity fees",
+      "10",
+      ""
+    ],
+    [
+      "MySuper Administration fee levels (Allowable for employees of employer sponsors under s.29VB of the SIS Act - MySuper products)",
+      "11",
+      ""
+    ],
+    [
+      "Explanatory notes",
+      "Explanatory notes",
+      ""
+    ],
+    [
+      "Metrics",
+      "Metrics",
+      ""
+    ]
+  ],
+  "sheet_summary": [
+    {
+      "sheet": "Cover",
+      "max_row": 34,
+      "max_column": 2
+    },
+    {
+      "sheet": "Notes",
+      "max_row": 60,
+      "max_column": 2
+    },
+    {
+      "sheet": "Important notice",
+      "max_row": 48,
+      "max_column": 1
+    },
+    {
+      "sheet": "Contents",
+      "max_row": 51,
+      "max_column": 3
+    },
+    {
+      "sheet": "Table 2",
+      "max_row": 201,
+      "max_column": 68
+    },
+    {
+      "sheet": "Table 3",
+      "max_row": 201,
+      "max_column": 63
+    },
+    {
+      "sheet": "Table 4a",
+      "max_row": 4708,
+      "max_column": 88
+    },
+    {
+      "sheet": "Table 4b",
+      "max_row": 4708,
+      "max_column": 88
+    },
+    {
+      "sheet": "Table 4c",
+      "max_row": 4709,
+      "max_column": 88
+    },
+    {
+      "sheet": "Table 5a",
+      "max_row": 9145,
+      "max_column": 89
+    },
+    {
+      "sheet": "Table 5b",
+      "max_row": 13029,
+      "max_column": 89
+    },
+    {
+      "sheet": "Table 5c",
+      "max_row": 9144,
+      "max_column": 89
+    },
+    {
+      "sheet": "Table 6a",
+      "max_row": 3187,
+      "max_column": 89
+    },
+    {
+      "sheet": "Table 6b",
+      "max_row": 5493,
+      "max_column": 89
+    },
+    {
+      "sheet": "Table 6c",
+      "max_row": 2719,
+      "max_column": 89
+    },
+    {
+      "sheet": "Table 7a",
+      "max_row": 5493,
+      "max_column": 89
+    },
+    {
+      "sheet": "Table 7b",
+      "max_row": 5493,
+      "max_column": 89
+    },
+    {
+      "sheet": "Table 7c",
+      "max_row": 4822,
+      "max_column": 89
+    },
+    {
+      "sheet": "Table 7d",
+      "max_row": 4534,
+      "max_column": 89
+    },
+    {
+      "sheet": "Table 8a",
+      "max_row": 1843,
+      "max_column": 129
+    },
+    {
+      "sheet": "Table 8b",
+      "max_row": 4430,
+      "max_column": 120
+    },
+    {
+      "sheet": "Table 8c",
+      "max_row": 3258,
+      "max_column": 120
+    },
+    {
+      "sheet": "Table 8d",
+      "max_row": 3258,
+      "max_column": 120
+    },
+    {
+      "sheet": "Table 9",
+      "max_row": 21210,
+      "max_column": 36
+    },
+    {
+      "sheet": "Table 9a",
+      "max_row": 14048,
+      "max_column": 31
+    },
+    {
+      "sheet": "Table 10",
+      "max_row": 24388,
+      "max_column": 28
+    },
+    {
+      "sheet": "Table 11",
+      "max_row": 1276,
+      "max_column": 23
+    },
+    {
+      "sheet": "Explanatory notes",
+      "max_row": 47,
+      "max_column": 4
+    },
+    {
+      "sheet": "Metrics",
+      "max_row": 34,
+      "max_column": 6
+    }
+  ]
+}
