@@ -43,10 +43,12 @@ const c = {
 
 assert.equal(comparability(a, b).level, 'strong');
 assert.equal(comparability(a, c).level, 'weak');
+assert.equal(comparability({ option_id: 'x' }, { option_id: 'y' }).level, 'weak');
 assert.equal(comparisonTakeaways(a, b).takeaways.length >= 3, true);
 
 const peers = [b, c, { ...b, option_id: 'd', return_10y_pct: 8.7, fee_100k_pct: 0.75 }];
 assert.equal(buildPeerSet(a, peers).length, 2);
+assert.equal(buildPeerSet({ option_id: 'missing-basis' }, peers).length, 0);
 assert.equal(peerContext(a, peers).peerCount, 2);
 
 // Fisher/compound real return, not nominal-minus-inflation shortcut.
