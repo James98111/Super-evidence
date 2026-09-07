@@ -5,6 +5,7 @@ on:
   push:
     paths:
       - 'scripts/apra_performance_inspect.py'
+      - 'scripts/apra_performance_samples.py'
       - '.github/workflows/apra-performance-inspect.yml'
 
 permissions:
@@ -35,14 +36,17 @@ jobs:
       - name: Inspect workbook
         run: python scripts/apra_performance_inspect.py
 
-      - name: Commit schema
+      - name: Capture real data samples
+        run: python scripts/apra_performance_samples.py
+
+      - name: Commit schema and samples
         run: |
-          git add data/apra-market/performance-schema.json data/apra-market/performance-contents.json
+          git add data/apra-market/performance-schema.json data/apra-market/performance-contents.json data/apra-market/performance-real-samples.json
           if git diff --cached --quiet; then
             echo 'No schema changes.'
             exit 0
           fi
           git config user.name 'super-evidence-bot'
           git config user.email '94504434+James98111@users.noreply.github.com'
-          git commit -m 'Inspect APRA performance workbook schema'
+          git commit -m 'Inspect APRA performance workbook schema and samples'
           git push
