@@ -44,9 +44,10 @@ jobs:
           p=json.load(open('data/apra-market/funds-index.json'))
           print('reporting_period:', p['reporting_period'])
           print('fund_count:', p['fund_count'])
-          print('managed_structure_records:', sum(x['managed_options'] for x in p['funds']))
-          print('direct_asset_records:', sum(x['direct_assets'] for x in p['funds']))
-          print('total_structure_records:', sum(x['total_option_records'] for x in p['funds']))
+          print('unique_managed_options:', p['unique_managed_options'])
+          print('unique_direct_assets:', p['unique_direct_assets'])
+          print('unique_options_total:', p['unique_options_total'])
+          print('pathways:', p['pathways'])
           PY
 
       - name: Commit refreshed public snapshot
