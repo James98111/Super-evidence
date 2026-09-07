@@ -8,6 +8,7 @@ on:
       - 'core-v8.js'
       - 'workspace-v8.js'
       - 'v8/**'
+      - 'methodology.html'
       - 'tests/**'
       - 'styles-v7.css'
       - 'index.html'
@@ -39,10 +40,14 @@ jobs:
           css=Path('v8/styles.css').read_text(encoding='utf-8')
           js=Path('v8/app.js').read_text(encoding='utf-8')
           assert 'type="module" src="app.js"' in html
+          assert 'enhancements.css' in html
           assert 'My research' in html
           assert 'core-v8.js' in js and 'workspace-v8.js' in js
           assert 'question-grid' in css and 'research-detail' in css
           assert 'Search the market' in html
+          assert 'onerror=' not in js, 'Inline error handlers are not permitted'
+          root=Path('index.html').read_text(encoding='utf-8')
+          assert 'url=v8/' in root, 'Public root must open the integrated V8 experience'
           print('V8 shell passed')
           PY
       - name: Market data integrity
@@ -72,8 +77,16 @@ jobs:
           if cppp.exists():
               c=json.load(open(cppp))
               rows=c.get('records',[])
-              assert len(rows) >= 700
+              assert len(rows) >= 1500
               ten=[x for x in rows if x.get('return_10y_pct') is not None]
               assert len(ten) >= 300
+              assert all(-100 <= x['return_10y_pct'] <= 100 for x in ten)
+              assert all(0 <= x['total_fee_100k_pct'] <= 20 for x in rows if x.get('total_fee_100k_pct') is not None)
+              assert all(0 <= x['growth_weight_pct'] <= 150 for x in rows if x.get('growth_weight_pct') is not None)
+              norm=lambda v: ''.join(ch if ch.isalnum() else ' ' for ch in str(v or '').lower()).split()
+              names={(x.get('fund'),tuple(norm(x.get('option_name')))) for x in m}
+              exact=sum((x.get('fund'),tuple(norm(x.get('option_name')))) in names for x in rows)
+              assert exact >= 1000, exact
+              print('CPPP exact-name overlay matches:', exact)
           print('QA passed')
           PY
