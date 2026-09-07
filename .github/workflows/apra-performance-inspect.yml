@@ -1,0 +1,48 @@
+name: Inspect APRA performance workbook
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/apra_performance_inspect.py'
+      - '.github/workflows/apra-performance-inspect.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: apra-performance-inspect
+  cancel-in-progress: false
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install workbook parser
+        run: python -m pip install --disable-pip-version-check openpyxl==3.1.5
+
+      - name: Inspect workbook
+        run: python scripts/apra_performance_inspect.py
+
+      - name: Commit schema
+        run: |
+          git add data/apra-market/performance-schema.json
+          if git diff --cached --quiet; then
+            echo 'No schema changes.'
+            exit 0
+          fi
+          git config user.name 'super-evidence-bot'
+          git config user.email '94504434+James98111@users.noreply.github.com'
+          git commit -m 'Inspect APRA performance workbook schema'
+          git push
