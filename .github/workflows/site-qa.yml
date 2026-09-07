@@ -1,0 +1,46 @@
+name: Super Evidence site QA
+
+on:
+  push:
+    branches: ['main']
+    paths:
+      - 'app-v7.js'
+      - 'styles-v7.css'
+      - 'index.html'
+      - 'data/apra-market/**'
+      - '.github/workflows/site-qa.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: JavaScript syntax
+        run: node --check app-v7.js
+      - name: Market data integrity
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          root=pathlib.Path('data/apra-market')
+          idx=json.load(open(root/'funds-index.json'))
+          assert idx['fund_count'] >= 50, idx['fund_count']
+          assert idx['unique_options_total'] >= 10000, idx['unique_options_total']
+          stats=root/'market-stats.json'
+          if stats.exists():
+              s=json.load(open(stats))
+              assert s['fund_entities'] == idx['fund_count']
+              assert s['unique_option_records'] == idx['unique_options_total']
+              assert 0 <= s['growth_exposure_min_pct'] <= s['growth_exposure_max_pct'] <= 150
+          metrics=root/'option-metrics-index.json'
+          if metrics.exists():
+              m=json.load(open(metrics))['options']
+              assert len(m) >= 500
+              returns=[x['return_10y_pct'] for x in m if x.get('return_10y_pct') is not None]
+              assert len(returns) >= 300
+              assert all(-100 <= x <= 100 for x in returns)
+          print('QA passed')
+          PY
