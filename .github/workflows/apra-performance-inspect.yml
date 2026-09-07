@@ -37,7 +37,7 @@ jobs:
 
       - name: Commit schema
         run: |
-          git add data/apra-market/performance-schema.json
+          git add data/apra-market/performance-schema.json data/apra-market/performance-contents.json
           if git diff --cached --quiet; then
             echo 'No schema changes.'
             exit 0
