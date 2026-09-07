@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles-v3.css" />
 </head>
 <body>
   <header class="site-header">
@@ -25,7 +26,7 @@
         <button data-view="learn" class="nav-link">Learn</button>
         <button data-view="about" class="nav-link">About</button>
       </nav>
-      <button id="globalSearchButton" class="search-button" aria-haspopup="dialog" aria-label="Search Super Evidence">
+      <button id="globalSearchButton" class="search-button" aria-haspopup="dialog" aria-label="Search super funds">
         <svg aria-hidden="true" viewBox="0 0 32 32"><use href="assets/icons.svg#search"></use></svg>
       </button>
     </div>
@@ -53,12 +54,12 @@
   <dialog id="searchDialog" class="search-dialog">
     <div class="dialog-head">
       <div>
-        <span class="eyebrow">Search</span>
-        <strong>Find a fund or investment option</strong>
+        <span class="eyebrow">Search funds</span>
+        <strong>Find a super fund</strong>
       </div>
       <button id="closeSearch" class="icon-button" aria-label="Close search">×</button>
     </div>
-    <input id="dialogSearchInput" class="dialog-search-input" type="search" placeholder="Search a fund, investment option or topic" autocomplete="off" />
+    <input id="dialogSearchInput" class="dialog-search-input" type="search" placeholder="Search Australian Retirement Trust, Aware Super..." autocomplete="off" />
     <div id="dialogSearchResults" class="dialog-results"></div>
   </dialog>
 
